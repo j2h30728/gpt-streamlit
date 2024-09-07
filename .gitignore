@@ -1,5 +1,15 @@
+.vscode
+
 env/
 .env
 
 .cache/
 */.cache/
+*.db
+
+.streamlit/
+
+.DS_Store
+
+
+__pycache__
