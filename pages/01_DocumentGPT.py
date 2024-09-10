@@ -1,8 +1,8 @@
 import streamlit as st
 
 from session.service import save_message_on_session,initial_message_on_session
-from gpt.chain import create_chain
-from view.cache import get_cached_retriever
+from gpt.chain import create_stuff_chain
+from view.cache import get_cached_document_retriever
 from view.message import print_message, paint_history
 
 
@@ -22,18 +22,21 @@ st.markdown(
     """
 )
 
+# session_state에서 API 키와 파일을 가져옴
+api_key = st.session_state.get("api_key", None)
 with st.sidebar:
-    api_key = st.text_input("OpenAI API 키를 입력해주세요.")
-    st.write(f"API 키 : {api_key}")
-
-    if(api_key):
+    if not api_key:
+            api_key = st.text_input("OpenAI API 키를 입력해주세요.")
+            st.session_state["api_key"] = api_key
+    else:
         input_file = st.file_uploader(
             "문서 파일을 선택 해주세요. (.txt, .pdf, .docx)",
             type=["pdf", "txt", "docx"],
         )
 
+
 if api_key and input_file:
-    retriever = get_cached_retriever(input_file, api_key)
+    retriever = get_cached_document_retriever(input_file, api_key)
 
     print_message("안녕하세요. 어떤 것이 알고싶나요?", "ai")
     paint_history()
@@ -43,9 +46,10 @@ if api_key and input_file:
         print_message(input_message, "human")
         save_message_on_session(input_message,"human")
 
-        chain = create_chain(retriever, api_key)
+        chain = create_stuff_chain(retriever, api_key)
         with st.chat_message("ai"):
-            chain.invoke(input_message)
+            result = chain.invoke(input_message)
+            save_message_on_session(result,"ai")
 else:
     initial_message_on_session()
 

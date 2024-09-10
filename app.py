@@ -1,8 +1,6 @@
 import streamlit as st
 
 from session.service import save_message_on_session,initial_message_on_session
-from gpt.chain import create_chain
-from view.cache import get_cached_retriever
 from view.message import print_message, paint_history
 
 
@@ -19,5 +17,14 @@ st.markdown(
 
     - [DocumentGPT](/DocumentGPT) : 문서 파일을 읽고 질문에 대한 답을 해드립니다.
     - [QuizGPT](/QuizGPT)
+    - [SiteGPT](/SiteGPT) : 웹페이지를 읽고 질문에 대한 답을 해드립니다.
     """
 )
+
+with st.sidebar:
+    api_key = st.session_state.get("api_key", None)
+    if not api_key:
+        api_key = st.text_input("OpenAI API 키를 입력해주세요.")
+        st.session_state["api_key"] = api_key
+
+    st.write(f"API 키 : {api_key}")

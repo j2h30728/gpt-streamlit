@@ -4,6 +4,14 @@ import streamlit as st
 
 from session.service import save_message_on_session
 
+
+def create_default_chat_open_model(api_key):
+    return ChatOpenAI(
+        openai_api_key=api_key,
+        temperature=0.1,
+    )
+
+
 def create_chat_open_model(api_key):
     return ChatOpenAI(
         openai_api_key=api_key,
