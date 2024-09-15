@@ -1,5 +1,6 @@
 from langchain.chat_models import ChatOpenAI
 from langchain.callbacks.base import BaseCallbackHandler
+
 import streamlit as st
 
 from session.service import save_message_on_session
@@ -34,3 +35,4 @@ class ChatCallbackHandler(BaseCallbackHandler):
     def on_llm_new_token(self, token, *args, **kwargs):
         self.message += token
         self.message_box.markdown(self.message)
+
