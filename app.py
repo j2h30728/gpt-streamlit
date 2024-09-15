@@ -5,11 +5,11 @@ from view.message import print_message, paint_history
 
 
 st.set_page_config(
-    page_title="FullstackGPT Home",
-    page_icon="🤖",
+    page_title="InvestorGPT",
+    page_icon="💼",
 )
 
-st.title("FullstackGPT")
+st.title("InvestorGPT")
 
 st.markdown(
     """
@@ -18,6 +18,7 @@ st.markdown(
     - [DocumentGPT](/DocumentGPT) : 문서 파일을 읽고 질문에 대한 답을 해드립니다.
     - [QuizGPT](/QuizGPT)
     - [SiteGPT](/SiteGPT) : 웹페이지를 읽고 질문에 대한 답을 해드립니다.
+    - [InvestorGPT](/InvestorGPT) : 회사 질문에 대한 답을 해드립니다.
     """
 )
 
