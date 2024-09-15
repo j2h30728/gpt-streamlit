@@ -1,6 +1,6 @@
-from langchain.utilities import DuckDuckGoSearchAPIWrapper
-from langchain.tools import DuckDuckGoSearchResults
-from langchain.tools import WikipediaQueryRun
+from langchain.utilities import DuckDuckGoSearchAPIWrapper, WikipediaAPIWrapper
+from langchain_community.utilities import DuckDuckGoSearchAPIWrapper
+from langchain_community.tools import WikipediaQueryRun
 from bs4 import BeautifulSoup
 import requests
 import streamlit as st
@@ -100,19 +100,18 @@ functions_call = [
 ]
 
 
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 def get_ddg_results(inputs):
     query = inputs["query"]
-    search = DuckDuckGoSearchResults()
+    search = DuckDuckGoSearchAPIWrapper()
     try:
-            return search.run(query)
+        return search.run(query)
     except HTTPError as e:
         print(f"DuckDuckGo 검색 중 오류 발생: {e}")
         return f"DuckDuckGo 검색 중 오류가 발생했습니다: {str(e)}. 다른 검색 방법을 시도해보세요."
 
 def get_wiki_results(inputs):
     query = inputs["query"]
-    wrapper = DuckDuckGoSearchAPIWrapper(max_results=3)
+    wrapper = WikipediaAPIWrapper(max_results=3)
     wiki = WikipediaQueryRun(api_wrapper=wrapper)
     return wiki.run(query)
 
