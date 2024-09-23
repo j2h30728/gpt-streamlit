@@ -111,7 +111,7 @@ def get_ddg_results(inputs):
 
 def get_wiki_results(inputs):
     query = inputs["query"]
-    wrapper = WikipediaAPIWrapper(max_results=3)
+    wrapper = WikipediaAPIWrapper()
     wiki = WikipediaQueryRun(api_wrapper=wrapper)
     return wiki.run(query)
 
